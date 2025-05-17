@@ -14,8 +14,10 @@ export const registerUser = async(userData:FieldValues)=>{
             },
             body:JSON.stringify(userData)
         });
-        const result = res.json()
-        
+         const result =await res.json()
+        if(result.success){
+            (await cookies()).set("accessToken",result.data.accessToken)
+        }
         return result
     }
     catch(err:any){
@@ -48,14 +50,38 @@ return  Error(err)
 }
 
 export const getCurrentUser = async()=>{
-    const accessToken = (await cookies()).get("accessToken")!.value
-    let decodedData = null;
+    const accessToken = (await cookies()).get('accessToken')?.value
+    let decodeData = null;
 
     if(accessToken){
-        decodedData = await jwtDecode(accessToken)
-        return decodedData
-    }
-    else{
+        decodeData = await jwtDecode(accessToken)
+        return decodeData
+    }else{
         return null
     }
 }
+
+export const rechaptchValidation = async(token:string)=>{
+try{
+        const res =await fetch("https://www.google.com/recaptcha/api/siteverify",{
+        method:'POST',
+        headers:{
+            'Content-Type':"application/x-www-form-urlencoded"
+        },
+        body:new URLSearchParams({
+            secret:process.env.NEXT_PUBLIC_RECAPTCHA_SERVER_KEY!,
+            response:token
+        })
+    })
+    return res.json()
+}
+catch(err:any){
+    return Error(err)
+}
+
+};
+
+export const logout = async() => {
+  const cookieStore = await cookies();
+  cookieStore.delete('accessToken');
+};
