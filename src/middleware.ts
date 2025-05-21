@@ -7,7 +7,7 @@ type Role = keyof typeof roleBasedPrivateRole
 
 const authRoutes= ["/login","/register"]
 const roleBasedPrivateRole ={
-    user:[/^\/user/],
+    user:[/^\/user/,/^\/create-shop/],
     admin:[/^\/admin/]
 }
 

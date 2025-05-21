@@ -15,12 +15,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { logout } from "@/services/AuthService";
 import { useUser } from "@/context/UserContext";
+import {  usePathname, useRouter } from "next/navigation";
+import { protectedRoute } from "@/contants";
 
 export default function Navbar() {
   const { user, setIsLoading } = useUser();
+  const pathname= usePathname()
+  const router = useRouter()
+
+
   const handleLogOut = () => {
     logout();
     setIsLoading(true);
+    if(protectedRoute.some((route) =>pathname.match(route))){
+      router.push("/")
+    }
   };
 
   return (
