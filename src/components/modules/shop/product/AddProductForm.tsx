@@ -124,7 +124,7 @@ export default function AddProductsForm() {
         (specification[item.key] = item.value)
     );
 
-    // console.log({ availableColors, keyFeatures, specification });
+    console.log({ availableColors, keyFeatures, specification });
 
     const modifiedData = {
       ...data,
@@ -144,7 +144,8 @@ export default function AddProductsForm() {
     }
     try {
       const res = await addProduct(formData);
-
+      console.log(res);
+      
       if (res.success) {
         toast.success(res.message);
         router.push("/user/shop/products");

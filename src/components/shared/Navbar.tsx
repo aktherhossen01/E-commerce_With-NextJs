@@ -73,10 +73,10 @@ export default function Navbar() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                <DropdownMenuItem><Link href='/user/dashboard'>Dashboard</Link> </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  className="bg-gray-300 "
+                  className="bg-gray-300"
                   onClick={handleLogOut}
                 >
                   <LogOut />
