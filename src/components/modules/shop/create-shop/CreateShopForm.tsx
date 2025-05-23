@@ -61,7 +61,7 @@ export default function CreateShopForm() {
   };
 
   return (
-    <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-2xl p-5 my-5">
+    <div className="border-2 border-gray-300 rounded-xl mx-auto flex-grow max-w-2xl p-5 my-5">
       <div className="flex items-center space-x-4 mb-5">
         <Logo />
         <div>
@@ -230,7 +230,7 @@ export default function CreateShopForm() {
               />
             </div>
 
-            {imagePreview.length > 0 ? (
+            {imagePreview?.length > 0 ? (
               <ImagePreviewer
                 setImageFiles={setImageFiles}
                 imagePreview={imagePreview}

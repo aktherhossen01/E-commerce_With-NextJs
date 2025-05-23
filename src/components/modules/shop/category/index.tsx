@@ -1,7 +1,6 @@
 "use client";
+
 import { ICategory } from "@/types";
-// import CreateCategoryModal from "./CreateCategoryModal";
-// import { NMTable } from "@/components/ui/core/NMTable";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { Trash } from "lucide-react";
@@ -13,16 +12,15 @@ import CreateCategoryModal from "./CreateCategoryModel";
 import { NMTable } from "@/components/ui/core/NMtable";
 
 type TCategoriesProps = {
-  categories: ICategory[];
+  categories?: ICategory[]; // optional, handle safely
 };
 
-const ManageCategories = ({ categories }: TCategoriesProps) => {
+const ManageCategories = ({ categories = [] }: TCategoriesProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const handleDelete = (data: ICategory) => {
-    console.log(data);
     setSelectedId(data?._id);
     setSelectedItem(data?.name);
     setModalOpen(true);
@@ -32,12 +30,11 @@ const ManageCategories = ({ categories }: TCategoriesProps) => {
     try {
       if (selectedId) {
         const res = await deleteCategory(selectedId);
-        console.log(res);
-        if (res.success) {
-          toast.success(res.message);
+        if (res?.success) {
+          toast.success(res.message || "Deleted successfully!");
           setModalOpen(false);
         } else {
-          toast.error(res.message);
+          toast.error(res?.message || "Something went wrong");
         }
       }
     } catch (err: any) {
@@ -52,13 +49,13 @@ const ManageCategories = ({ categories }: TCategoriesProps) => {
       cell: ({ row }) => (
         <div className="flex items-center space-x-3">
           <Image
-            src={row.original.icon}
-            alt={row.original.name}
+            src={row.original.icon || "/placeholder.png"} // fallback image
+            alt={row.original.name || "category"}
             width={40}
             height={40}
-            className="w-8 h-8 rounded-full"
+            className="w-8 h-8 rounded-full object-contain"
           />
-          <span className="truncate">{row.original.name}</span>
+          <span className="truncate">{row.original.name || "Unnamed"}</span>
         </div>
       ),
     },
@@ -100,9 +97,12 @@ const ManageCategories = ({ categories }: TCategoriesProps) => {
         <h1 className="text-xl font-bold">Manage Categories</h1>
         <CreateCategoryModal />
       </div>
-      <NMTable data={categories} columns={columns} />
+
+      {/* Fallback to empty array if undefined */}
+      <NMTable data={categories || []} columns={columns} />
+
       <DeleteConfirmationModal
-        name={selectedItem}
+        name={selectedItem || ""}
         isOpen={isModalOpen}
         onOpenChange={setModalOpen}
         onConfirm={handleDeleteConfirm}

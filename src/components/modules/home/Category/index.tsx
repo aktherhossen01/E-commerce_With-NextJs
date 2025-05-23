@@ -9,7 +9,7 @@ const Category = async () => {
   const { data: categories } = await getAllCategories();
   return (
     <NMContainer>
-    <div className="container mx-auto my-20">
+    <div className="container mx-auto my-20 bg-gray-100 p-5 rounded">
       <div className="flex items-center justify-between">
         <h2 className="font-bold text-2xl">Category</h2>
         <Link href="/products">
@@ -18,12 +18,10 @@ const Category = async () => {
           </Button>
         </Link>
       </div>
-      <div className="grid grid-cols-6 gap-8 my-5">
-        {Array(12)
-          .fill(categories?.[0])
-          .map((category: ICategory, idx: number) => (
-            <CategoryCard key={idx} category={category} />
-          ))}
+      <div className="grid grid-cols-5 gap-8 my-5">
+       {(categories || []).slice(0, 9).map((category: ICategory, idx: number) => (
+  <CategoryCard key={idx} category={category} />
+))}
       </div>
     </div></NMContainer>
   );

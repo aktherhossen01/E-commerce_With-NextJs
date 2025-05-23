@@ -7,7 +7,7 @@ type Role = keyof typeof roleBasedPrivateRole
 
 const authRoutes= ["/login","/register"]
 const roleBasedPrivateRole ={
-    user:[/^\/user/,/^\/create-shop/],
+    user:[/^\/user/,/^\/create-shop/,/^\/cart/],
     admin:[/^\/admin/]
 }
 
@@ -42,5 +42,7 @@ export const  config={
         "/admin/:page",
         "/user",
         "/user/:page",
+        "/cart",
+        
     ]
 }
